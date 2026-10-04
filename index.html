@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Matrix: 50 Levels Hacker Logic Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050508;
+            color: #00ff66;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .terminal {
+            background-color: #0b0c10;
+            border: 2px solid #00ff66;
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
+            width: 750px;
+            max-width: 95%;
+            padding: 30px;
+            border-radius: 6px;
+        }
+        h1 {
+            color: #00ff66;
+            text-align: center;
+            font-size: 24px;
+            margin-top: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+            letter-spacing: 2px;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #45a29e;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #00ff66;
+            padding-bottom: 8px;
+        }
+        .screen {
+            background: #020204;
+            padding: 20px;
+            border: 1px solid #1f2833;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 120px;
+        }
+        .highlight { color: #ff007f; font-weight: bold; }
+        .success { color: #00ffff; font-weight: bold; }
+        .warning { color: #ffcc00; font-weight: bold; }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            background: #020204;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 12px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            background: #00ff66;
+            color: #050508;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <h1>⚡ CYBER-MATRIX LOGIC: LEVEL 1 - 50 ⚡</h1>
+    
+    <!-- MENU UTAMA -->
+    <div id="menu-screen">
+        <div class="screen" style="text-align: center;">
+            <p>> SYSTEM BREACH PROTOCOL INITIALIZED.</p>
+            <p>> Hadapi 50 level teka-teki logika peretasan murni: Sandi Rahasia, Konversi Biner, Pola Matematika, dan Debugging Kode.</p>
+            <p>> Apakah kapasitas otakmu cukup untuk menembus Level 50?</p>
+        </div>
+        <button style="width: 100%;" onclick="startCampaign()">MULAI PENETRASI (LEVEL 1)</button>
+    </div>
+
+    <!-- LAYAR PERMAINAN -->
+    <div id="game-screen" class="hidden">
+        <div class="dashboard">
+            <span id="level-display">LEVEL: 1 / 50</span>
+            <span id="category-display">KATEGORI: Caesar Cipher</span>
+            <span id="score-display">SKOR: 0</span>
+        </div>
+        
+        <div class="screen" id="puzzle-desc">
+            <!-- Deskripsi puzzle muncul di sini -->
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="user-answer" placeholder="Masukkan kode dekripsi / jawaban..." autocomplete="off">
+            <button onclick="submitAnswer()">EKSEKUSI</button>
+        </div>
+        <div id="feedback-msg" style="margin-top: 10px; font-size: 14px;"></div>
+    </div>
+
+    <!-- LAYAR Kemenangan TAMAT -->
+    <div id="win-screen" class="hidden">
+        <div class="screen" style="text-align: center;">
+            <h2 class="success">SELAMAT! ROOT ACCESS SEPENUHNYA DIKUASAI!</h2>
+            <p>Kamu telah berhasil menaklukkan seluruh 50 level logika sistem pertahanan cyber.</p>
+            <p>Skor Akhir: <span id="final-score" class="warning" style="font-size: 22px;">0</span></p>
+        </div>
+        <button style="width: 100%;" onclick="location.reload()">ULANGI MISI DARI AWAL</button>
+    </div>
+</div>
+
+<script>
+    let currentLevel = 1;
+    let score = 0;
+    let currentPuzzle = {};
+
+    // Generator Dinamis 50 Level Puzzle Logika Hacker
+    function generatePuzzle(level) {
+        let category = "";
+        let promptText = "";
+        let answer = "";
+
+        if (level <= 10) {
+            // FASE 1: Caesar Cipher / Pergeseran Huruf (Level 1 - 10)
+            category = "Sandi Caesar (Shift Cipher)";
+            const words = ["PYTHON", "FIREWALL", "KERNEL", "SERVER", "DATABASE", "ROUTER", "PACKET", "SYSTEM", "SECURE", "ACCESS"];
+            let original = words[(level - 1) % words.length];
+            let shift = (level % 3) + 1; // Geser huruf
+            
+            let encrypted = "";
+            for (let i = 0; i < original.length; i++) {
+                let code = original.charCodeAt(i);
+                encrypted += String.fromCharCode(code + shift);
+            }
+            promptText = `Dekripsi sandi teks berikut yang digeser sebanyak <span class="warning">+${shift}</span> huruf dalam ASCII:<br><br>Payload: <span class="highlight">${encrypted}</span>`;
+            answer = original;
+
+        } else if (level <= 20) {
+            // FASE 2: Konversi Biner / Hex (Level 11 - 20)
+            category = "Analisis Biner & Hex";
+            if (level % 2 === 0) {
+                let numbers = [10, 15, 42, 64, 128, 255, 7, 13, 99, 50];
+                let num = numbers[(level - 11) % numbers.length];
+                promptText = `Ubah nilai Biner berikut kembali ke angka desimal (basis 10):<br><br>Binary: <span class="highlight">${num.toString(2)}</span>`;
+                answer = num.toString();
+            } else {
+                let words = ["IP", "TCP", "SSH", "ROOT", "BUG", "WEB", "LAN", "WAN", "DOS", "API"];
+                let w = words[(level - 11) % words.length];
+                let hexArr = [];
+                for(let i=0; i<w.length; i++) {
+                    hexArr.push(w.charCodeAt(i).toString(16).toUpperCase());
+                }
+                promptText = `Ubah kode Hexadesimal berikut kembali ke teks string aslinya:<br><br>Hex: <span class="highlight">${hexArr.join(' ')}</span>`;
+                answer = w;
+            }
+
+        } else if (level <= 30) {
+            // FASE 3: Pola Angka / Logika Matematika Sistem (Level 21 - 30)
+            category = "Pola Deret Logika";
+            let start = (level - 20) * 2;
+            let diff = (level % 4) + 2;
+            let seq = [start, start + diff, start + (diff*2), start + (diff*3)];
+            let nextVal = start + (diff*4);
+            
+            promptText = `Temukan angka selanjutnya (?) dalam pola urutan sistem keamanan ini:<br><br>Deret: <span class="highlight">${seq.join(', ')}, ?</span>`;
+            answer = nextVal.toString();
+
+        } else if (level <= 40) {
+            // FASE 4: Debugging Logika Python (Level 31 - 40)
+            category = "Python Code Logic";
+            let logicPool = [
+                { q: "Berapa hasil dari evaluasi ekspresi Python: `3 + 4 * 2`?", ans: "11" },
+                { q: "Apa output dari perintah Python: `len(\"HACKER\")`?", ans: "6" },
+                { q: "Berapa indeks elemen pertama di dalam sebuah list Python?", ans: "0" },
+                { q: "Operator logika apa di Python yang merepresentasikan 'DAN' (AND)? Ketik kuncinya.", ans: "and" },
+                { q: "Apa hasil dari operasi modulus berikut: `10 % 3`?", ans: "1" },
+                { q: "Metode string Python apa yang digunakan untuk mengubah semua huruf menjadi kapital? (contoh: .upper())", ans: "upper" },
+                { q: "Berapa boolean hasil dari ekspresi berikut: `10 > 5 and 3 == 3` (True/False)?", ans: "True" },
+                { q: "Di Python, keyword apa yang digunakan untuk mendefinisikan sebuah fungsi baru?", ans: "def" },
+                { q: "Apa tipe data dari hasil operasi `5.0 + 2` di Python?", ans: "float" },
+                { q: "Keyword apa yang dipakai untuk keluar/menghentikan perulangan (loop) di Python?", ans: "break" }
+            ];
+            let item = logicPool[(level - 31) % logicPool.length];
+            promptText = `Selesaikan evaluasi logika kode pemrograman berikut:<br><br><span class="warning">${item.q}</span>`;
+            answer = item.ans;
+
+        } else {
+            // FASE 5: Master Cryptography & Root Access (Level 41 - 50)
+            category = "Root Master Cipher";
+            let codes = ["MAINFRAME", "BACKDOOR", "CYBERPUNK", "EXPLOIT", "OVERRIDE", "FIREWALL", "ENCRYPTION", "ALGORITHM", "SYNCHRONIZE", "ROOTACCESS"];
+            let code = codes[(level - 41) % codes.length];
+            // Reverse string challenge
+            let reversed = code.split('').reverse().join('');
+            promptText = `UJI KETAHANAN AKHIR: Balikkan (Reverse) susunan string kata sandi keamanan root berikut secara terbalik!<br><br>Payload Terbalik: <span class="highlight">${reversed}</span>`;
+            answer = code;
+        }
+
+        return { category, promptText, answer };
+    }
+
+    function startCampaign() {
+        currentLevel = 1;
+        score = 0;
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        loadLevel();
+    }
+
+    function loadLevel() {
+        if (currentLevel > 50) {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('win-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            return;
+        }
+
+        currentPuzzle = generatePuzzle(currentLevel);
+        document.getElementById('level-display').innerText = `LEVEL: ${currentLevel} / 50`;
+        document.getElementById('category-display').innerText = `KATEGORI: ${currentPuzzle.category}`;
+        document.getElementById('score-display').innerText = `SKOR: ${score}`;
+        document.getElementById('puzzle-desc').innerHTML = currentPuzzle.promptText;
+        
+        document.getElementById('user-answer').value = "";
+        document.getElementById('feedback-msg').innerHTML = "";
+        document.getElementById('user-answer').focus();
+    }
+
+    function submitAnswer() {
+        let userIn = document.getElementById('user-answer').value.trim();
+        let feedback = document.getElementById('feedback-msg');
+
+        // Validasi case-insensitive untuk beberapa puzzle string, atau exact match
+        if (userIn.toUpperCase() === currentPuzzle.answer.toUpperCase() || userIn === currentPuzzle.answer) {
+            score += currentLevel * 10;
+            feedback.innerHTML = `<span class="success">√ AKSES LEVEL ${currentLevel} DITERIMA! Melanjutkan ke enkripsi berikutnya...</span>`;
+            currentLevel++;
+            setTimeout(loadLevel, 1200);
+        } else {
+            feedback.innerHTML = `<span class="highlight">X AKSES DITOLAK! Logika atau kunci jawaban keliru. Coba lagi.</span>`;
+        }
+    }
+
+    // Tekan Enter untuk mengirim jawaban
+    document.getElementById("user-answer").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            submitAnswer();
+        }
+    });
+</script>
+
+</body>
+</html>
